@@ -37,10 +37,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: Image.asset(
                   AppImages.person,
                   width: 208,
-                  height: 378,
+                  height: 300,
                 )),
             Positioned(
-              bottom: size.height * 0.08,
+              bottom: size.height * 0.05,
               left: 0,
               right: 0,
               child: Column(
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                   Image.asset(AppImages.logomini),
                   Padding(
                     padding:
-                        const EdgeInsets.only(top: 40, left: 70, right: 70),
+                        const EdgeInsets.only(top: 30, left: 70, right: 70),
                     child: Text(
                       "Organize seus boletos em um só lugar",
                       textAlign: TextAlign.center,

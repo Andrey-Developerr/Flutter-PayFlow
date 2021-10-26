@@ -12,9 +12,10 @@ class BarcodeScannerController {
   set status(BarcodeScannerStatus status) => statusNotifier.value = status;
 
   final barcodeScanner = GoogleMlKit.vision.barcodeScanner();
-  CameraController? cameraController;
 
   InputImage? imagePicker;
+
+  CameraController? cameraController;
 
   void getAvailableCameras() async {
     try {
@@ -39,19 +40,15 @@ class BarcodeScannerController {
     try {
       final barcodes = await barcodeScanner.processImage(inputImage);
 
-      if (barcodes.isNotEmpty) {
-        late BarcodeValue barcode;
-        for (Barcode item in barcodes) {
-          barcode = item.value;
-        }
+      var barcode;
+      for (Barcode item in barcodes) {
+        barcode = item.value.displayValue;
+      }
 
-        if (status.barcode.isEmpty &&
-            barcode.rawBytes != null &&
-            barcode.rawBytes!.isNotEmpty) {
-          status = BarcodeScannerStatus.barcode(barcode.displayValue ?? "");
-          await cameraController!.dispose();
-          await barcodeScanner.close();
-        }
+      if (barcode != null && status.barcode.isEmpty) {
+        status = BarcodeScannerStatus.barcode(barcode);
+        cameraController!.dispose();
+        await barcodeScanner.close();
       }
 
       return;
@@ -77,7 +74,7 @@ class BarcodeScannerController {
 
   void listenCamera() {
     if (cameraController!.value.isStreamingImages == false) {
-      cameraController!.startImageStream((CameraImage cameraImage) async {
+      cameraController!.startImageStream((cameraImage) async {
         if (status.stopScanner == false) {
           try {
             final WriteBuffer allBytes = WriteBuffer();
@@ -87,7 +84,7 @@ class BarcodeScannerController {
             final bytes = allBytes.done().buffer.asUint8List();
             final Size imageSize = Size(
                 cameraImage.width.toDouble(), cameraImage.height.toDouble());
-            const InputImageRotation imageRotation =
+            final InputImageRotation imageRotation =
                 InputImageRotation.Rotation_0deg;
             final InputImageFormat inputImageFormat =
                 InputImageFormatMethods.fromRawValue(cameraImage.format.raw) ??

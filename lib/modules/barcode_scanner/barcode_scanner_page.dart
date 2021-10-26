@@ -23,7 +23,8 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
     controller.getAvailableCameras();
     controller.statusNotifier.addListener(() {
       if (controller.status.hasBarcode) {
-        Navigator.pushReplacementNamed(context, "/insert_boleto");
+        Navigator.pushReplacementNamed(context, "/insert_boleto",
+            arguments: controller.status.barcode);
       }
     });
 
@@ -45,18 +46,16 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
       right: true,
       child: Stack(
         children: [
-          // Container(color: Colors.purple),
           ValueListenableBuilder<BarcodeScannerStatus>(
             valueListenable: controller.statusNotifier,
             builder: (_, status, __) {
               if (status.showCamera) {
                 return Container(
+                  color: Colors.blue,
                   child: controller.cameraController!.buildPreview(),
                 );
               } else {
-                return Container(
-                  color: Colors.blue,
-                );
+                return Container();
               }
             },
           ),
@@ -86,15 +85,17 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                           color: Colors.transparent,
                         )),
                     Expanded(
-                        child: Container(
-                      color: Colors.black.withOpacity(0.8),
-                    ))
+                      child: Container(
+                        color: Colors.black,
+                      ),
+                    )
                   ],
                 ),
                 bottomNavigationBar: SetLabelButtons(
                     primaryLabel: "Inserir código de boleto",
                     primaryOnPressed: () {
                       Navigator.pushReplacementNamed(context, "/insert_boleto");
+                      //arguments: controller.status.barcode);
                     },
                     secondaryLabel: "Adicionar da galeria",
                     secondaryOnPressed: () {})),
