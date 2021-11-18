@@ -9,6 +9,11 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.heading,
   );
+  static final titleRegular = GoogleFonts.lexendDeca(
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+    color: AppColors.background,
+  );
   static final titleBoldHeading = GoogleFonts.lexendDeca(
     fontSize: 20,
     fontWeight: FontWeight.w600,
@@ -58,6 +63,11 @@ class AppTextStyles {
     fontSize: 15,
     fontWeight: FontWeight.w700,
     color: AppColors.primary,
+  );
+  static final input = GoogleFonts.inter(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColors.input,
   );
   static final buttonBoldHeading = GoogleFonts.inter(
     fontSize: 15,
